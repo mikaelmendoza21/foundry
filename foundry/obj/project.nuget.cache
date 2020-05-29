@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "PW4RhsCAnEmEDezd4BuemhAvwCvJLiZESHZJPBSStlfyQZ1EkSv+8geWL0+oiiz27HN05sIfL42u5fXiWK6xHA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\foundry.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mikae\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

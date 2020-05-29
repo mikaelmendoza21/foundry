@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "yrRe2WRgX3poG5hl+XBifEVPrY50LfN388hkeLdBHgKDgBJlTwibwiaMNU7DHLqX30z+JhHyPMBaqUGn0gxuGw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mikae\\Desktop\\dev\\foundry\\ChiefOfTheFoundry\\ChiefOfTheFoundry.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mikae\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\mikae\\.nuget\\packages\\mtgapimanager.lib\\1.2.2\\mtgapimanager.lib.1.2.2.nupkg.sha512",
+    "C:\\Users\\mikae\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\mikae\\.nuget\\packages\\newtonsoft.json\\12.0.1\\newtonsoft.json.12.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
