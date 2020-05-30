@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.10.4" />
     <PackageReference Include="MtgApiManager.Lib" Version="1.2.2" />
   </ItemGroup>
 

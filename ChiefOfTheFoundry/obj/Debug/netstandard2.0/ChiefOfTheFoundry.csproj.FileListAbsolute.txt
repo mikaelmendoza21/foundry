@@ -1,7 +1,6 @@
 /vagrant/ChiefOfTheFoundry/bin/Debug/netstandard2.0/ChiefOfTheFoundry.deps.json
 /vagrant/ChiefOfTheFoundry/bin/Debug/netstandard2.0/ChiefOfTheFoundry.dll
 /vagrant/ChiefOfTheFoundry/bin/Debug/netstandard2.0/ChiefOfTheFoundry.pdb
-/vagrant/ChiefOfTheFoundry/obj/Debug/netstandard2.0/ChiefOfTheFoundry.csprojAssemblyReference.cache
 /vagrant/ChiefOfTheFoundry/obj/Debug/netstandard2.0/ChiefOfTheFoundry.AssemblyInfoInputs.cache
 /vagrant/ChiefOfTheFoundry/obj/Debug/netstandard2.0/ChiefOfTheFoundry.AssemblyInfo.cs
 /vagrant/ChiefOfTheFoundry/obj/Debug/netstandard2.0/ChiefOfTheFoundry.csproj.CoreCompileInputs.cache
@@ -13,6 +12,5 @@ C:\Users\mikae\Desktop\dev\foundry\ChiefOfTheFoundry\bin\Debug\netstandard2.0\Ch
 C:\Users\mikae\Desktop\dev\foundry\ChiefOfTheFoundry\obj\Debug\netstandard2.0\ChiefOfTheFoundry.csprojAssemblyReference.cache
 C:\Users\mikae\Desktop\dev\foundry\ChiefOfTheFoundry\obj\Debug\netstandard2.0\ChiefOfTheFoundry.AssemblyInfoInputs.cache
 C:\Users\mikae\Desktop\dev\foundry\ChiefOfTheFoundry\obj\Debug\netstandard2.0\ChiefOfTheFoundry.AssemblyInfo.cs
-C:\Users\mikae\Desktop\dev\foundry\ChiefOfTheFoundry\obj\Debug\netstandard2.0\ChiefOfTheFoundry.csproj.CoreCompileInputs.cache
 C:\Users\mikae\Desktop\dev\foundry\ChiefOfTheFoundry\obj\Debug\netstandard2.0\ChiefOfTheFoundry.dll
 C:\Users\mikae\Desktop\dev\foundry\ChiefOfTheFoundry\obj\Debug\netstandard2.0\ChiefOfTheFoundry.pdb

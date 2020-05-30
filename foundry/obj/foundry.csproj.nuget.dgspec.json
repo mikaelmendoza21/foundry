@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\foundry.csproj": {}
+    "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\Foundry.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\foundry.csproj": {
+    "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\Foundry.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\foundry.csproj",
-        "projectName": "foundry",
-        "projectPath": "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\foundry.csproj",
+        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\Foundry.csproj",
+        "projectName": "Foundry",
+        "projectPath": "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\Foundry.csproj",
         "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\mikae\\Desktop\\dev\\foundry\\foundry\\obj\\",
         "projectStyle": "PackageReference",

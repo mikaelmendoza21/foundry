@@ -1,3 +1,12 @@
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.csprojAssemblyReference.cache
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.AssemblyInfoInputs.cache
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.AssemblyInfo.cs
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.csproj.CoreCompileInputs.cache
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.MvcApplicationPartsAssemblyInfo.cache
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.RazorAssemblyInfo.cache
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.RazorAssemblyInfo.cs
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.dll
+/vagrant/foundry/obj/Debug/netcoreapp3.1/foundry.pdb
 C:\Users\mikae\Desktop\dev\foundry\foundry\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\mikae\Desktop\dev\foundry\foundry\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\mikae\Desktop\dev\foundry\foundry\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
@@ -9,6 +18,7 @@ C:\Users\mikae\Desktop\dev\foundry\foundry\bin\Debug\netcoreapp3.1\foundry.dll
 C:\Users\mikae\Desktop\dev\foundry\foundry\bin\Debug\netcoreapp3.1\foundry.pdb
 C:\Users\mikae\Desktop\dev\foundry\foundry\bin\Debug\netcoreapp3.1\foundry.Views.dll
 C:\Users\mikae\Desktop\dev\foundry\foundry\bin\Debug\netcoreapp3.1\foundry.Views.pdb
+C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.csprojAssemblyReference.cache
 C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.AssemblyInfoInputs.cache
 C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.AssemblyInfo.cs
 C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.csproj.CoreCompileInputs.cache
@@ -34,4 +44,3 @@ C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.dll
 C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.pdb
 C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.genruntimeconfig.cache
 C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.csproj.CopyComplete
-C:\Users\mikae\Desktop\dev\foundry\foundry\obj\Debug\netcoreapp3.1\foundry.csprojAssemblyReference.cache
