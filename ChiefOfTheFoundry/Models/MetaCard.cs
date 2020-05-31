@@ -19,14 +19,9 @@ namespace ChiefOfTheFoundry.Models
         public Uri ImageUrl { get; set; }
 
         /* Constructors */ 
-        public MetaCard(string id) 
-        {
-            this.Id = id;
-        }
 
-        public MetaCard(string id, string name, string manaCost, string text, Uri imageUrl)
+        public MetaCard(string name, string manaCost, string text, Uri imageUrl)
         {
-            this.Id = id;
             this.Name = name;
             this.ManaCost = manaCost;
             this.Text = text;

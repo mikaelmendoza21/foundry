@@ -18,8 +18,22 @@ namespace ChiefOfTheFoundry.MtgApi
                 .All();
 
             if (result.IsSuccess && result.Value?[0] != null)
-                return new MetaCard(result.Value[0].MultiverseId.ToString(),
-                    result.Value[0].Name,
+                return new MetaCard(result.Value[0].Name,
+                    result.Value[0].ManaCost,
+                    result.Value[0].Text,
+                    result.Value[0].ImageUrl);
+
+            return null;
+        }
+
+        public static MetaCard FindRandomMetaCard()
+        {
+            CardService service = new CardService();
+            Exceptional<List<MtgApiManager.Lib.Model.Card>> result = service
+                .All();
+
+            if (result.IsSuccess && result.Value?[0] != null)
+                return new MetaCard(result.Value[0].Name,
                     result.Value[0].ManaCost,
                     result.Value[0].Text,
                     result.Value[0].ImageUrl);
