@@ -28,13 +28,18 @@ namespace FoundryApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MetaCardDbSettings>(
-            Configuration.GetSection(nameof(MetaCardDbSettings)));
 
-            services.AddSingleton<MetaCardDbSettings>(sp =>
-                sp.GetRequiredService<IOptions<MetaCardDbSettings>>().Value);
+            services.Configure<ICollectionDbSettings>(Configuration.GetSection("SetDbSettings"));
+            services.Configure<ICollectionDbSettings>(Configuration.GetSection("MetaCardDbSettings"));
+            services.Configure<ICollectionDbSettings>(Configuration.GetSection("CardDbSettings"));
 
+            services.AddSingleton<ICollectionDbSettings>(sp =>
+                sp.GetRequiredService<IOptions<CollectionDbSettings>>().Value);
+
+
+            services.AddSingleton<MtgSetService>();
             services.AddSingleton<MetaCardService>();
+            services.AddSingleton<MtgCardService>();
 
             services.AddControllers();
         }

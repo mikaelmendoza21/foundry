@@ -10,12 +10,12 @@ namespace ChiefOfTheFoundry.DataAccess
     {
         private readonly IMongoCollection<MetaCard> _metaCards;
 
-        public MetaCardService(IMetaCardsDbSettings settings)
+        public MetaCardService(ICollectionDbSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _metaCards = database.GetCollection<MetaCard>(settings.MetaCardsCollectionName);
+            _metaCards = database.GetCollection<MetaCard>(settings.CollectionName);
         }
 
         public MetaCard GetOneMetaCard()
@@ -31,10 +31,20 @@ namespace ChiefOfTheFoundry.DataAccess
             .FirstOrDefault();
         }
 
+        public MetaCard GetMetaCardByName(string name)
+        {
+            return _metaCards.Find<MetaCard>(card => card.Name == name)
+            .FirstOrDefault();
+        }
+
         public MetaCard Create(MetaCard card)
         {
-            _metaCards.InsertOne(card);
-            return card;
+            MetaCard existingCard = GetMetaCardByName(card.Name);
+
+            if(existingCard == null)
+                _metaCards.InsertOne(card);
+
+            return existingCard ?? card;
         }
 
         public void Update(string id, MetaCard cardIn)

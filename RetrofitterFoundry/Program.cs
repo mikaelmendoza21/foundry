@@ -3,36 +3,164 @@ using ChiefOfTheFoundry.Models;
 using ChiefOfTheFoundry.MtgApi;
 using MtgApiManager.Lib.Model;
 using System;
+using System.Collections.Generic;
 
 namespace RetrofitterFoundry
 {
     class Program
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private const string ConnString = "mongodb://localhost:27017";
+        private const string DbName = "FoundryDb";
+        private const string SetsCollection = "Sets";
+        private const string MetaCardsCollection = "MetaCards";
+        private const string CardsCollection = "Cards";
+
         static void Main(string[] args)
         {
             Console.WriteLine("You've casted Retrofitter Foundry");
             Console.WriteLine("This will populate your local database with MetaCard data");
+            logger.Info($"Retroffiter Foundry Started at {DateTime.Now.TimeOfDay}");
 
-            MetaCard aMetaCard = FetchAnyMetaCard();
 
-            Console.WriteLine($"Found card with name: ${aMetaCard.Name}");
-
-            MetaCardDbSettings dbSettings = new MetaCardDbSettings()
+            try
             {
-                MetaCardsCollectionName = "MetaCards",
-                ConnectionString = "mongodb://localhost:27017",
-                DatabaseName = "FoundryDb"
-            };
+                // Seed Sets
+                SeedSetsDatabase();
 
-            MetaCardService service = new MetaCardService(dbSettings);
-            MetaCard createdCard = service.Create(aMetaCard);
+                // Seed Cards
+                SeedCardDatabase();
+            }
+            catch (Exception e)
+            {
+                logger.Error($"Retrofitter Foundry was terminated. Error = {e.Message}");
+            }
 
-            Console.WriteLine($"Saved to Db with Id: ${createdCard.Id}");
+            Console.WriteLine($"Retrofitter Foundry left the field. {DateTime.Now.TimeOfDay}");
         }
 
-        private static MetaCard FetchAnyMetaCard()
+        private static void SeedSetsDatabase()
         {
-            return CardFinder.FindRandomMetaCard();
+            string setInProgress = string.Empty;
+
+            try
+            {
+                CollectionDbSettings dbSettings = new CollectionDbSettings()
+                {
+                    CollectionName = SetsCollection,
+                    ConnectionString = ConnString,
+                    DatabaseName = DbName
+                };
+                MtgSetService service = new MtgSetService(dbSettings);
+
+                logger.Info("Retrofitter Foundry started process: SeedSetsDatabase");
+                Console.WriteLine("Retrofitter Foundry started process: SeedSetsDatabase");
+
+                List<MtgApiManager.Lib.Model.Set> sets = SetFinder.GetAllSets();
+                Console.WriteLine($"Retrofitter Foundry found {sets.Count}");
+
+                foreach (Set currentSet in sets)
+                {
+                    if (service.GetMTGSetByName(currentSet.Name) != null)
+                        continue; // Skip set if it exists
+
+                    setInProgress = currentSet.Name;
+                    MtgSet set = new MtgSet(currentSet);
+
+                    if (currentSet.OnlineOnly.HasValue && currentSet.OnlineOnly.Value)
+                        continue; // Skip online-only sets
+
+                    service.Create(set);
+                }
+
+                Console.WriteLine("Retrofitter Foundry finished process: SeedSetsDatabase");
+                logger.Info("Retrofitter Foundry finished process: SeedSetsDatabase");
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, $"[SeedSetDatabase] An error occurred. [SetInProgress={setInProgress}] Error Message: {e.Message}");
+                logger.Error(e, $"[SeedSetDatabase] Trace: {e.StackTrace}");
+            }
+        }
+
+        private static void SeedCardDatabase()
+        {
+            int page = 1;
+            int waitTimeInSeconds = 25;
+            try
+            {
+                logger.Info("Retrofitter Foundry started process: SeedMetaCardDatabase");
+                Console.WriteLine("Retrofitter Foundry started process: SeedMetaCardDatabase");
+
+                CollectionDbSettings metaCardsDbSettings = new CollectionDbSettings()
+                {
+                    CollectionName = MetaCardsCollection,
+                    ConnectionString = ConnString,
+                    DatabaseName = DbName
+                };
+                MetaCardService metaService = new MetaCardService(metaCardsDbSettings);
+
+                CollectionDbSettings setDbSettings = new CollectionDbSettings()
+                {
+                    CollectionName = SetsCollection,
+                    ConnectionString = ConnString,
+                    DatabaseName = DbName
+                };
+                MtgSetService setService = new MtgSetService(setDbSettings);
+
+                CollectionDbSettings cardDbSettings = new CollectionDbSettings()
+                {
+                    CollectionName = CardsCollection,
+                    ConnectionString = ConnString,
+                    DatabaseName = DbName
+                };
+                MtgCardService cardService = new MtgCardService(cardDbSettings);
+
+                List<Card> cards = CardFinder.GetNextHundredCards(page);
+
+                while (cards?.Count > 0)
+                {
+                    System.Threading.Thread.Sleep(waitTimeInSeconds * 1000);
+
+                    foreach (Card currentCard in cards)
+                    {
+                        MtgSet set = setService.GetMTGSetByName(currentCard.SetName);
+
+                        if (set != null)
+                        {
+                            MetaCard existingMetaCard = metaService.GetMetaCardByName(currentCard.Name);
+                            if (existingMetaCard != null &&
+                                existingMetaCard.SetIDs != null &&
+                                !existingMetaCard.SetIDs.Contains(set.Id))
+                            {
+                                // Update MetaCard with SetId reference
+                                existingMetaCard.SetIDs.Add(set.Id);
+                                metaService.Update(existingMetaCard.Id, existingMetaCard);
+                            }
+                            else if (existingMetaCard == null)
+                            {
+                                // Add MetaCard to Db
+                                MetaCard newMetaCard = new MetaCard(currentCard, new List<string>() { set.Id });
+                                metaService.Create(newMetaCard);
+                            }
+
+                            MtgCard card = new MtgCard(currentCard, set.Id);
+                            cardService.Create(card);
+                        }
+                        // else - don't add 'onlineOnly' set cards
+                    }
+
+                    Console.WriteLine($"Page: {page}. Total Cards inserted = {page * 100}");
+
+                    page++;
+                    cards = CardFinder.GetNextHundredCards(page);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, $"[SeedMetaCardDatabase] An error occurred. [Page={page}] Error Message: {e.Message}");
+                logger.Error(e, $"[SeedMetaCardDatabase] Trace {e.StackTrace}");
+            }
         }
     }
 }
