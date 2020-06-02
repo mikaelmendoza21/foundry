@@ -6,7 +6,18 @@ using System.Text;
 
 namespace ChiefOfTheFoundry.DataAccess
 {
-    public class MetaCardService
+    public interface IMetaCardService
+    {
+        MetaCard GetOneMetaCard();
+        MetaCard GetMetaCardById(string id);
+        MetaCard GetMetaCardByName(string name);
+        MetaCard Create(MetaCard card);
+        void Update(string id, MetaCard cardIn);
+        void Remove(MetaCard cardIn);
+        void Remove(string id);
+    }
+
+    public class MetaCardService : IMetaCardService
     {
         private readonly IMongoCollection<MetaCard> _metaCards;
 

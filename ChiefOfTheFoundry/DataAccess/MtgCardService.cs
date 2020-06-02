@@ -6,7 +6,17 @@ using System.Text;
 
 namespace ChiefOfTheFoundry.DataAccess
 {
-    public class MtgCardService
+    public interface IMtgCardService
+    {
+        MtgCard GetMtgCardByName(string name, string setId);
+        MtgCard GetMtgCardById(string id);
+        MtgCard Create(MtgCard card);
+        void Update(string id, MtgCard cardIn);
+        void Remove(MtgCard setIn);
+        void Remove(string id);
+    }
+
+    public class MtgCardService : IMtgCardService
     {
         private readonly IMongoCollection<MtgCard> _cards;
 

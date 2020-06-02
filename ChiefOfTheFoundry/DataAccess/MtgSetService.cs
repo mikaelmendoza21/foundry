@@ -6,7 +6,17 @@ using System.Text;
 
 namespace ChiefOfTheFoundry.DataAccess
 {
-    public class MtgSetService
+    public interface IMtgSetService
+    {
+        MtgSet GetMTGSetByName(string name);
+        MtgSet GetMTGSetById(string id);
+        MtgSet Create(MtgSet set);
+        void Update(string id, MtgSet setIn);
+        void Remove(MtgSet setIn);
+        void Remove(string id);
+    }
+
+    public class MtgSetService : IMtgSetService
     {
         private readonly IMongoCollection<MtgSet> _sets;
 

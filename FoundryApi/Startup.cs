@@ -28,18 +28,30 @@ namespace FoundryApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Db Services - Dependency Injection
+            CollectionDbSettings setServiceDbSettings = new CollectionDbSettings()
+            {
+                CollectionName = Configuration.GetSection("DbSettings")["SetCollectionName"],
+                ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
+                DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
+            };
+            services.AddSingleton<IMtgSetService>(s => new MtgSetService(setServiceDbSettings));
 
-            services.Configure<ICollectionDbSettings>(Configuration.GetSection("SetDbSettings"));
-            services.Configure<ICollectionDbSettings>(Configuration.GetSection("MetaCardDbSettings"));
-            services.Configure<ICollectionDbSettings>(Configuration.GetSection("CardDbSettings"));
+            CollectionDbSettings metaCardServiceDbSettings = new CollectionDbSettings()
+            {
+                CollectionName = Configuration.GetSection("DbSettings")["MetaCardsCollectionName"],
+                ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
+                DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
+            };
+            services.AddSingleton<IMetaCardService>(s => new MetaCardService(metaCardServiceDbSettings));
 
-            services.AddSingleton<ICollectionDbSettings>(sp =>
-                sp.GetRequiredService<IOptions<CollectionDbSettings>>().Value);
-
-
-            services.AddSingleton<MtgSetService>();
-            services.AddSingleton<MetaCardService>();
-            services.AddSingleton<MtgCardService>();
+            CollectionDbSettings cardServiceDbSettings = new CollectionDbSettings()
+            {
+                CollectionName = Configuration.GetSection("DbSettings")["CardsCollectionName"],
+                ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
+                DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
+            };
+            services.AddSingleton<IMtgCardService>(s => new MtgCardService(cardServiceDbSettings));
 
             services.AddControllers();
         }

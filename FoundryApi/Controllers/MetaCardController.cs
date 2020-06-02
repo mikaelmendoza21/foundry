@@ -14,9 +14,9 @@ namespace FoundryApi.Controllers
     public class MetaCardController : ControllerBase
     {
         private readonly ILogger<MetaCardController> _logger;
-        private readonly MetaCardService _metaCardService;
+        private readonly IMetaCardService _metaCardService;
 
-        public MetaCardController(MetaCardService metaCardService)
+        public MetaCardController(IMetaCardService metaCardService)
         {
             _metaCardService = metaCardService;
         }

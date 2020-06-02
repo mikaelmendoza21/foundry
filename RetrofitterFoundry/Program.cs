@@ -22,14 +22,17 @@ namespace RetrofitterFoundry
             Console.WriteLine("This will populate your local database with MetaCard data");
             logger.Info($"Retroffiter Foundry Started at {DateTime.Now.TimeOfDay}");
 
-
             try
             {
+                int startPage = 1;
+                if (args.Length > 0)
+                    startPage = Int32.Parse(args[0]);
+
                 // Seed Sets
                 SeedSetsDatabase();
 
                 // Seed Cards
-                SeedCardDatabase();
+                SeedCardDatabase(startPage);
             }
             catch (Exception e)
             {
@@ -37,6 +40,7 @@ namespace RetrofitterFoundry
             }
 
             Console.WriteLine($"Retrofitter Foundry left the field. {DateTime.Now.TimeOfDay}");
+            logger.Info("Retrofitter Foundry left the field.");
         }
 
         private static void SeedSetsDatabase()
@@ -83,10 +87,9 @@ namespace RetrofitterFoundry
             }
         }
 
-        private static void SeedCardDatabase()
+        private static void SeedCardDatabase(int page = 1)
         {
-            int page = 1;
-            int waitTimeInSeconds = 25;
+            int waitTimeInSeconds = 15;
             try
             {
                 logger.Info("Retrofitter Foundry started process: SeedMetaCardDatabase");
@@ -141,20 +144,24 @@ namespace RetrofitterFoundry
                             {
                                 // Add MetaCard to Db
                                 MetaCard newMetaCard = new MetaCard(currentCard, new List<string>() { set.Id });
-                                metaService.Create(newMetaCard);
+                                existingMetaCard = metaService.Create(newMetaCard);
                             }
 
-                            MtgCard card = new MtgCard(currentCard, set.Id);
+                            MtgCard card = new MtgCard(currentCard, set.Id)
+                            {
+                                MetaCardID = existingMetaCard.Id
+                            };
                             cardService.Create(card);
                         }
                         // else - don't add 'onlineOnly' set cards
                     }
 
-                    Console.WriteLine($"Page: {page}. Total Cards inserted = {page * 100}");
+                    Console.WriteLine($"Page: {page}. Total Cards processed = {page * 100}");
 
                     page++;
                     cards = CardFinder.GetNextHundredCards(page);
                 }
+                logger.Info("Retrofitter Foundry finished process: SeedMetaCardDatabase");
             }
             catch (Exception e)
             {

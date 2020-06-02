@@ -35,6 +35,7 @@ namespace ChiefOfTheFoundry.Models
             Name = cardInstance.Name;
             ManaCost = cardInstance.ManaCost;
             Text = cardInstance.OriginalText;
+            Type = cardInstance.Type;
             ImageUrl = cardInstance.ImageUrl ?? DefaultImage;
             SetIDs = setIds;
         }

@@ -20,6 +20,7 @@ namespace ChiefOfTheFoundry.Models
         public string MetaCardID { get; set; }
         public Uri ImageUrl { get; set; }
         public string SetID { get; set; }
+        public List<string> Types { get; set; }
         public List<string> Colors { get; set; }
         public List<string> ColorIdentity { get; set; }
         public List<string> Variations { get; set; }
@@ -29,6 +30,8 @@ namespace ChiefOfTheFoundry.Models
             Name = cardInstance.Name;
             ManaCost = cardInstance.ManaCost;
             Text = cardInstance.Text;
+            Type = cardInstance.Type;
+            Types = cardInstance.Types?.ToList();
             ImageUrl = cardInstance.ImageUrl ?? DefaultImage;
             SetID = setID;
             Colors = cardInstance.Colors?.ToList();
