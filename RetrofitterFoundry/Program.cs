@@ -138,7 +138,7 @@ namespace RetrofitterFoundry
                             {
                                 // Update MetaCard with SetId reference
                                 existingMetaCard.SetIDs.Add(set.Id);
-                                metaService.Update(existingMetaCard.Id, existingMetaCard);
+                                metaService.Update(existingMetaCard);
                             }
                             else if (existingMetaCard == null)
                             {

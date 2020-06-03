@@ -13,7 +13,7 @@ namespace FoundryApi.Controllers
     [Route("api/metacard")]
     public class MetaCardController : ControllerBase
     {
-        private readonly ILogger<MetaCardController> _logger;
+        private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IMetaCardService _metaCardService;
 
         public MetaCardController(IMetaCardService metaCardService)
@@ -28,6 +28,34 @@ namespace FoundryApi.Controllers
             {
                 _metaCardService.GetOneMetaCard()
             };
+        }
+
+        [HttpGet]
+        public MetaCard Get(string cardName)
+        {
+            try
+            {
+                return _metaCardService.GetMetaCardByName(cardName);
+            }
+            catch (Exception e)
+            {
+                logger.Info($"Error fetching card with name '{cardName}'=> {e.Message} - {e.StackTrace}");
+                return null;
+            }
+        }
+
+        [HttpGet]
+        public MetaCard GetById(string id)
+        {
+            try
+            {
+                return _metaCardService.GetMetaCardById(id);
+            }
+            catch (Exception e)
+            {
+                logger.Info($"Error fetching card with id '{id}'=> {e.Message} - {e.StackTrace}");
+                return null;
+            }
         }
     }
 }

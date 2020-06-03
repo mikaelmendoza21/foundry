@@ -12,7 +12,7 @@ namespace ChiefOfTheFoundry.DataAccess
         MetaCard GetMetaCardById(string id);
         MetaCard GetMetaCardByName(string name);
         MetaCard Create(MetaCard card);
-        void Update(string id, MetaCard cardIn);
+        void Update(MetaCard cardIn);
         void Remove(MetaCard cardIn);
         void Remove(string id);
     }
@@ -58,9 +58,9 @@ namespace ChiefOfTheFoundry.DataAccess
             return existingCard ?? card;
         }
 
-        public void Update(string id, MetaCard cardIn)
+        public void Update(MetaCard cardIn)
         {
-            _metaCards.ReplaceOne(card => card.Id == id, cardIn);
+            _metaCards.ReplaceOne(card => card.Id == cardIn.Id, cardIn);
         }
 
         public void Remove(MetaCard cardIn)

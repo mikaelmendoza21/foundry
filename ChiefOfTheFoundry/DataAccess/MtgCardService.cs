@@ -11,7 +11,7 @@ namespace ChiefOfTheFoundry.DataAccess
         MtgCard GetMtgCardByName(string name, string setId);
         MtgCard GetMtgCardById(string id);
         MtgCard Create(MtgCard card);
-        void Update(string id, MtgCard cardIn);
+        void Update(MtgCard cardIn);
         void Remove(MtgCard setIn);
         void Remove(string id);
     }
@@ -51,9 +51,9 @@ namespace ChiefOfTheFoundry.DataAccess
             return existingCard ?? card;
         }
 
-        public void Update(string id, MtgCard cardIn)
+        public void Update(MtgCard cardIn)
         {
-            _cards.ReplaceOne(set => set.Id == id, cardIn);
+            _cards.ReplaceOne(set => set.Id == cardIn.Id, cardIn);
         }
 
         public void Remove(MtgCard setIn)
