@@ -44,7 +44,7 @@ namespace ChiefOfTheFoundry.DataAccess
 
         public MetaCard GetMetaCardByName(string name)
         {
-            return _metaCards.Find<MetaCard>(card => card.Name == name)
+            return _metaCards.Find<MetaCard>(card => card.Name.ToUpper() == name.ToUpper())
             .FirstOrDefault();
         }
 

@@ -31,7 +31,7 @@ namespace ChiefOfTheFoundry.DataAccess
         public MtgCard GetMtgCardByName(string name, string setId)
         {
             return _cards
-                .Find<MtgCard>(card => card.Name == name && card.SetID == setId)
+                .Find<MtgCard>(card => card.Name.ToUpper() == name.ToUpper() && card.SetID == setId)
                 .FirstOrDefault();
         }
 
@@ -53,17 +53,17 @@ namespace ChiefOfTheFoundry.DataAccess
 
         public void Update(MtgCard cardIn)
         {
-            _cards.ReplaceOne(set => set.Id == cardIn.Id, cardIn);
+            _cards.ReplaceOne(card => card.Id == cardIn.Id, cardIn);
         }
 
-        public void Remove(MtgCard setIn)
+        public void Remove(MtgCard cardIn)
         {
-            _cards.DeleteOne(set => set.Id == setIn.Id);
+            _cards.DeleteOne(card => card.Id == card.Id);
         }
 
         public void Remove(string id)
         {
-            _cards.DeleteOne(set => set.Id == id);
+            _cards.DeleteOne(card => card.Id == id);
         }
     }
 }

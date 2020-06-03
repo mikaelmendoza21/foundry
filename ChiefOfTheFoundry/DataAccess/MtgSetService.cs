@@ -31,7 +31,7 @@ namespace ChiefOfTheFoundry.DataAccess
         public MtgSet GetMTGSetByName(string name)
         {
             return _sets
-                .Find<MtgSet>(set => set.Name == name)
+                .Find<MtgSet>(set => set.Name.ToUpper() == name.ToUpper())
                 .FirstOrDefault();
         }
 
