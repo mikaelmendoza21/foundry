@@ -55,7 +55,7 @@ namespace RetrofitterFoundry
                     ConnectionString = ConnString,
                     DatabaseName = DbName
                 };
-                MtgSetService service = new MtgSetService(dbSettings);
+                MtgSetAccessor service = new MtgSetAccessor(dbSettings);
 
                 logger.Info("Retrofitter Foundry started process: SeedSetsDatabase");
                 Console.WriteLine("Retrofitter Foundry started process: SeedSetsDatabase");
@@ -101,7 +101,7 @@ namespace RetrofitterFoundry
                     ConnectionString = ConnString,
                     DatabaseName = DbName
                 };
-                MetaCardService metaService = new MetaCardService(metaCardsDbSettings);
+                MetaCardAccessor metaService = new MetaCardAccessor(metaCardsDbSettings);
 
                 CollectionDbSettings setDbSettings = new CollectionDbSettings()
                 {
@@ -109,7 +109,7 @@ namespace RetrofitterFoundry
                     ConnectionString = ConnString,
                     DatabaseName = DbName
                 };
-                MtgSetService setService = new MtgSetService(setDbSettings);
+                MtgSetAccessor setService = new MtgSetAccessor(setDbSettings);
 
                 CollectionDbSettings cardDbSettings = new CollectionDbSettings()
                 {
@@ -117,7 +117,7 @@ namespace RetrofitterFoundry
                     ConnectionString = ConnString,
                     DatabaseName = DbName
                 };
-                MtgCardService cardService = new MtgCardService(cardDbSettings);
+                MtgCardAccessor cardService = new MtgCardAccessor(cardDbSettings);
 
                 List<Card> cards = CardFinder.GetNextHundredCards(page);
 

@@ -35,23 +35,39 @@ namespace FoundryApi
                 ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
                 DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
             };
-            services.AddSingleton<IMtgSetService>(s => new MtgSetService(setServiceDbSettings));
+            services.AddSingleton<IMtgSetAccessor>(s => new MtgSetAccessor(setServiceDbSettings));
 
-            CollectionDbSettings metaCardServiceDbSettings = new CollectionDbSettings()
+            CollectionDbSettings metaCardDbSettings = new CollectionDbSettings()
             {
                 CollectionName = Configuration.GetSection("DbSettings")["MetaCardsCollectionName"],
                 ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
                 DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
             };
-            services.AddSingleton<IMetaCardService>(s => new MetaCardService(metaCardServiceDbSettings));
+            services.AddSingleton<IMetaCardAccessor>(s => new MetaCardAccessor(metaCardDbSettings));
 
-            CollectionDbSettings cardServiceDbSettings = new CollectionDbSettings()
+            CollectionDbSettings cardDbSettings = new CollectionDbSettings()
             {
                 CollectionName = Configuration.GetSection("DbSettings")["CardsCollectionName"],
                 ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
                 DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
             };
-            services.AddSingleton<IMtgCardService>(s => new MtgCardService(cardServiceDbSettings));
+            services.AddSingleton<IMtgCardAccessor>(s => new MtgCardAccessor(cardDbSettings));
+
+            CollectionDbSettings cardConstructDbSettings = new CollectionDbSettings()
+            {
+                CollectionName = Configuration.GetSection("DbSettings")["CardCollection"],
+                ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
+                DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
+            };
+            services.AddSingleton<ICardConstructAccessor>(s => new CardConstructAccessor(cardConstructDbSettings));
+
+            CollectionDbSettings deckDbSettings = new CollectionDbSettings()
+            {
+                CollectionName = Configuration.GetSection("DbSettings")["DeckCollectionName"],
+                ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
+                DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
+            };
+            services.AddSingleton<IDeckAccessor>(s => new DeckAccessor(cardDbSettings));
 
             services.AddControllers();
         }

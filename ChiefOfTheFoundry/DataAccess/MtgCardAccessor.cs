@@ -1,26 +1,28 @@
 ﻿using ChiefOfTheFoundry.Models;
 using MongoDB.Driver;
+using NLog.Filters;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ChiefOfTheFoundry.DataAccess
 {
-    public interface IMtgCardService
+    public interface IMtgCardAccessor
     {
         MtgCard GetMtgCardByName(string name, string setId);
         MtgCard GetMtgCardById(string id);
+        IEnumerable<MtgCard> GetMtgCards(FilterDefinition<MtgCard> filter);
         MtgCard Create(MtgCard card);
         void Update(MtgCard cardIn);
         void Remove(MtgCard setIn);
         void Remove(string id);
     }
 
-    public class MtgCardService : IMtgCardService
+    public class MtgCardAccessor : IMtgCardAccessor
     {
         private readonly IMongoCollection<MtgCard> _cards;
 
-        public MtgCardService(ICollectionDbSettings settings)
+        public MtgCardAccessor(ICollectionDbSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -39,6 +41,13 @@ namespace ChiefOfTheFoundry.DataAccess
         {
             return _cards.Find<MtgCard>(card => card.Id == id)
             .FirstOrDefault();
+        }
+
+        public IEnumerable<MtgCard> GetMtgCards(FilterDefinition<MtgCard> filter)
+        {
+            return _cards
+                .Find(filter)
+                .ToEnumerable();
         }
 
         public MtgCard Create(MtgCard card)

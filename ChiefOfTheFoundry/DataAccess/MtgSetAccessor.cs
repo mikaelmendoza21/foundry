@@ -6,21 +6,22 @@ using System.Text;
 
 namespace ChiefOfTheFoundry.DataAccess
 {
-    public interface IMtgSetService
+    public interface IMtgSetAccessor
     {
         MtgSet GetMTGSetByName(string name);
         MtgSet GetMTGSetById(string id);
+        IEnumerable<MtgSet> GetMtgSets(FilterDefinition<MtgSet> filter);
         MtgSet Create(MtgSet set);
         void Update(string id, MtgSet setIn);
         void Remove(MtgSet setIn);
         void Remove(string id);
     }
 
-    public class MtgSetService : IMtgSetService
+    public class MtgSetAccessor : IMtgSetAccessor
     {
         private readonly IMongoCollection<MtgSet> _sets;
 
-        public MtgSetService(ICollectionDbSettings settings)
+        public MtgSetAccessor(ICollectionDbSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -39,6 +40,13 @@ namespace ChiefOfTheFoundry.DataAccess
         {
             return _sets.Find<MtgSet>(set => set.Id == id)
             .FirstOrDefault();
+        }
+
+        public IEnumerable<MtgSet> GetMtgSets(FilterDefinition<MtgSet> filter)
+        {
+            return _sets
+                .Find(filter)
+                .ToEnumerable();
         }
 
         public MtgSet Create(MtgSet set)

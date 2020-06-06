@@ -3,25 +3,28 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ChiefOfTheFoundry.DataAccess
 {
-    public interface IMetaCardService
+    public interface IMetaCardAccessor
     {
         MetaCard GetOneMetaCard();
         MetaCard GetMetaCardById(string id);
         MetaCard GetMetaCardByName(string name);
+        IEnumerable<MetaCard> GetMetaCards(FilterDefinition<MetaCard> filter);
+        Task<List<MetaCard>> GetMetaCardsAsync(FilterDefinition<MetaCard> filter);
         MetaCard Create(MetaCard card);
         void Update(MetaCard cardIn);
         void Remove(MetaCard cardIn);
         void Remove(string id);
     }
 
-    public class MetaCardService : IMetaCardService
+    public class MetaCardAccessor : IMetaCardAccessor
     {
         private readonly IMongoCollection<MetaCard> _metaCards;
 
-        public MetaCardService(ICollectionDbSettings settings)
+        public MetaCardAccessor(ICollectionDbSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -29,6 +32,7 @@ namespace ChiefOfTheFoundry.DataAccess
             _metaCards = database.GetCollection<MetaCard>(settings.CollectionName);
         }
 
+        // GETTERS
         public MetaCard GetOneMetaCard()
         {
             return _metaCards
@@ -44,10 +48,25 @@ namespace ChiefOfTheFoundry.DataAccess
 
         public MetaCard GetMetaCardByName(string name)
         {
-            return _metaCards.Find<MetaCard>(card => card.Name.ToUpper() == name.ToUpper())
-            .FirstOrDefault();
+            return _metaCards
+                .Find<MetaCard>(card => card.Name.ToUpper() == name.ToUpper())
+                .FirstOrDefault();
         }
 
+        public IEnumerable<MetaCard> GetMetaCards(FilterDefinition<MetaCard> filter)
+        {
+            return _metaCards
+                .Find(filter)
+                .ToEnumerable();
+        }
+        public Task<List<MetaCard>> GetMetaCardsAsync(FilterDefinition<MetaCard> filter)
+        {
+            return _metaCards
+                .Find(filter)
+                .ToListAsync();
+        }
+
+        // Modifiers
         public MetaCard Create(MetaCard card)
         {
             MetaCard existingCard = GetMetaCardByName(card.Name);
