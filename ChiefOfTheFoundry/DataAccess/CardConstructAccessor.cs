@@ -10,9 +10,11 @@ namespace ChiefOfTheFoundry.DataAccess
     public interface ICardConstructAccessor
     {
         CardConstruct GetCardInCollection(string id);
+        CardConstruct GetCardConstruct(FilterDefinition<CardConstruct> filter);
+        List<CardConstruct> GetCardCopies(string mtgCardId);
         IEnumerable<CardConstruct> GetCardConstructs(FilterDefinition<CardConstruct> filter);
         CardConstruct Create(CardConstruct construct);
-        List<CardConstruct> CreateCardCopies(string mtgCardId);
+        List<CardConstruct> CreateMultipleCopies(CardConstruct construct, int numberOfCopies);
         void Update(CardConstruct constructIn);
         void Delete(CardConstruct construct);
         void Delete(string id);
@@ -37,6 +39,13 @@ namespace ChiefOfTheFoundry.DataAccess
                 .FirstOrDefault();
         }
 
+        public CardConstruct GetCardConstruct(FilterDefinition<CardConstruct> filter)
+        {
+            return _cardCollection
+                .Find(filter)
+                .FirstOrDefault();
+        }
+
         public IEnumerable<CardConstruct> GetCardConstructs(FilterDefinition<CardConstruct> filter)
         {
             return _cardCollection
@@ -44,7 +53,7 @@ namespace ChiefOfTheFoundry.DataAccess
                 .ToEnumerable();
         }
 
-        public List<CardConstruct> CreateCardCopies(string mtgCardId)
+        public List<CardConstruct> GetCardCopies(string mtgCardId)
         {
 
             return _cardCollection
@@ -54,6 +63,7 @@ namespace ChiefOfTheFoundry.DataAccess
 
         public CardConstruct Create(CardConstruct construct)
         {
+            // TODO: Validate MetaCard Id and MtgCard Id referenced
             _cardCollection.InsertOne(construct);
 
             return construct;

@@ -39,7 +39,7 @@ namespace FoundryApi
 
             CollectionDbSettings metaCardDbSettings = new CollectionDbSettings()
             {
-                CollectionName = Configuration.GetSection("DbSettings")["MetaCardsCollectionName"],
+                CollectionName = Configuration.GetSection("DbSettings")["MetaCardCollectionName"],
                 ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
                 DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
             };
@@ -47,7 +47,7 @@ namespace FoundryApi
 
             CollectionDbSettings cardDbSettings = new CollectionDbSettings()
             {
-                CollectionName = Configuration.GetSection("DbSettings")["CardsCollectionName"],
+                CollectionName = Configuration.GetSection("DbSettings")["CardCollectionName"],
                 ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
                 DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
             };
@@ -55,7 +55,7 @@ namespace FoundryApi
 
             CollectionDbSettings cardConstructDbSettings = new CollectionDbSettings()
             {
-                CollectionName = Configuration.GetSection("DbSettings")["CardCollection"],
+                CollectionName = Configuration.GetSection("DbSettings")["CardConstructCollectionName"],
                 ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
                 DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
             };

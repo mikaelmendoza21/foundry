@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChiefOfTheFoundry", "..\Chi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoundryInspector", "..\FoundryInspector\FoundryInspector.csproj", "{8BF50673-3719-4E2B-A911-F43F33365B51}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoundryApi", "..\FoundryApi\FoundryApi.csproj", "{645117D0-6EAA-4129-89D4-065DC35A2C0A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetrofitterFoundry", "..\RetrofitterFoundry\RetrofitterFoundry.csproj", "{32D96446-2DCC-4660-8095-8BCB6F32E94E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetrofitterFoundry", "..\RetrofitterFoundry\RetrofitterFoundry.csproj", "{32D96446-2DCC-4660-8095-8BCB6F32E94E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{8BF50673-3719-4E2B-A911-F43F33365B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BF50673-3719-4E2B-A911-F43F33365B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BF50673-3719-4E2B-A911-F43F33365B51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{645117D0-6EAA-4129-89D4-065DC35A2C0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{645117D0-6EAA-4129-89D4-065DC35A2C0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{645117D0-6EAA-4129-89D4-065DC35A2C0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{645117D0-6EAA-4129-89D4-065DC35A2C0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32D96446-2DCC-4660-8095-8BCB6F32E94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32D96446-2DCC-4660-8095-8BCB6F32E94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32D96446-2DCC-4660-8095-8BCB6F32E94E}.Release|Any CPU.ActiveCfg = Release|Any CPU

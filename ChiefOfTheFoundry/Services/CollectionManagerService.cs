@@ -8,6 +8,11 @@ using System.Text;
 
 namespace ChiefOfTheFoundry.Services
 {
+    public interface ICollectionManagerService
+    {
+        IEnumerable<MtgSet> GetSetsFromMetaCard(MetaCard metaCard);
+    }
+
     public class CollectionManagerService
     {
         IMetaCardAccessor _metaCardAccessor;
@@ -28,8 +33,6 @@ namespace ChiefOfTheFoundry.Services
             _cardConstructAccesor = cardConstructAccesor;
             _deckAccessor = deckAccessor;
         }
-
-
 
         public IEnumerable<MtgSet> GetSetsFromMetaCard(MetaCard metaCard)
         {

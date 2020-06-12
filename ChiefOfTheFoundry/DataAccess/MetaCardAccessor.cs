@@ -59,9 +59,9 @@ namespace ChiefOfTheFoundry.DataAccess
                 .Find(filter)
                 .ToEnumerable();
         }
-        public Task<List<MetaCard>> GetMetaCardsAsync(FilterDefinition<MetaCard> filter)
+        public async Task<List<MetaCard>> GetMetaCardsAsync(FilterDefinition<MetaCard> filter)
         {
-            return _metaCards
+            return await _metaCards
                 .Find(filter)
                 .ToListAsync();
         }

@@ -11,6 +11,7 @@ namespace ChiefOfTheFoundry.DataAccess
     {
         MtgCard GetMtgCardByName(string name, string setId);
         MtgCard GetMtgCardById(string id);
+        MtgCard GetMtgCard(FilterDefinition<MtgCard> filter);
         IEnumerable<MtgCard> GetMtgCards(FilterDefinition<MtgCard> filter);
         MtgCard Create(MtgCard card);
         void Update(MtgCard cardIn);
@@ -41,6 +42,13 @@ namespace ChiefOfTheFoundry.DataAccess
         {
             return _cards.Find<MtgCard>(card => card.Id == id)
             .FirstOrDefault();
+        }
+
+        public MtgCard GetMtgCard(FilterDefinition<MtgCard> filter)
+        {
+            return _cards
+                .Find(filter)
+                .FirstOrDefault();
         }
 
         public IEnumerable<MtgCard> GetMtgCards(FilterDefinition<MtgCard> filter)
