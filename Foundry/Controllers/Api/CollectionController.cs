@@ -8,106 +8,48 @@ using ChiefOfTheFoundry.Models.Inventory;
 using ChiefOfTheFoundry.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MtgApiManager.Lib.Core.Exceptions;
+using MtgApiManager.Lib.Model;
 
-namespace Foundry.Controllers.Api
+namespace FoundryApi.Api.Controllers
 {
     [ApiController]
     [Route("api/collection")]
     public class CollectionController : Controller
     {
+        private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IMetaCardAccessor _metaCardAccessor;
+        private readonly IMtgSetAccessor _setAccessor;
         private readonly IMtgCardAccessor _mtgCardAccessor;
-        private readonly ICardConstructAccessor _cardConstructAccessor;
-        private readonly IDeckAccessor _deckAccessor;
-        private readonly ICardManagerService _cardManagerService;
-        private readonly ICollectionManagerService _collectionManagerService;
-        private readonly ISetManagerService _setManagerService;
+        private readonly ICardConstructAccessor _cardConstructAccesor;
+        private readonly CardManagerService _cardManagerService;
 
-        public CollectionController(
-            IMetaCardAccessor metaCardAccessor,
+        public CollectionController(IMetaCardAccessor metaCardAccessor,
+            IMtgSetAccessor setAccessor,
             IMtgCardAccessor mtgCardAccessor,
-            ICardConstructAccessor cardConstructAccessor,
-            IDeckAccessor deckAccessor,
-            ICardManagerService cardManagerService,
-            ICollectionManagerService collectionManagerService,
-            ISetManagerService setManagerService)
+            ICardConstructAccessor cardConstructAccesor)
         {
             _metaCardAccessor = metaCardAccessor;
+            _setAccessor = setAccessor;
             _mtgCardAccessor = mtgCardAccessor;
-            _cardConstructAccessor = cardConstructAccessor;
-            _deckAccessor = deckAccessor;
-            _cardManagerService = cardManagerService;
-            _collectionManagerService = collectionManagerService;
-            _setManagerService = setManagerService;
+            _cardConstructAccesor = cardConstructAccesor;
+            _cardManagerService = new CardManagerService(_metaCardAccessor, _setAccessor, _mtgCardAccessor, _cardConstructAccesor);
         }
 
-        [HttpPost]
-        [Route("addCardConstructs")]
-        public JsonResult AddCardCopies(string mtgCardId, int numberOfCopies = 1)
+        [HttpPut]
+        [Route("card/bySet")]
+        public IActionResult AddCardToCollection([FromBody]CardConstruct cardConstruct, int copies = 1)
         {
-            if (string.IsNullOrEmpty(mtgCardId) || numberOfCopies < 1)
+            try
             {
-                return Json(new
-                {
-                    Error = $"invalid request. MtgCardId='{mtgCardId}'. Number of Copies {numberOfCopies}"
-                });
+                List<CardConstruct> createdCards = _cardConstructAccesor.CreateMultipleCopies(cardConstruct, copies);
+                return Json(createdCards);
             }
-
-            MtgCard mtgCard = _mtgCardAccessor.GetMtgCardById(mtgCardId);
-            if (mtgCard == null)
+            catch(Exception e)
             {
-                return Json(new
-                {
-                    Error = $"Invalid request. MtgCardId='{mtgCardId}'. Number of Copies {numberOfCopies}"
-                });
+                logger.Error($"[AddCardToCollection] failed. Error: {e.Message}");
+                return StatusCode(500);
             }
-
-            CardConstruct cardConstruct = new CardConstruct(mtgCard);
-            List<CardConstruct> createdConstructs = _cardManagerService.CreateCopiesFromConstruct(cardConstruct, numberOfCopies);
-
-            return Json(createdConstructs);
-        }
-
-        [HttpGet]
-        [Route("getCardConstructsByMetacardId")]
-        public JsonResult GetCardsInCollection(string metacardId)
-        {
-            if (string.IsNullOrEmpty(metacardId))
-            {
-                return Json(new
-                {
-                    Error = $"Invalid request"
-                });
-            }
-
-            List<CardConstruct> cardConstructs = _cardManagerService.GetCardConstructsFromMetacardId(metacardId).ToList();
-            if (cardConstructs.Count <= 0)
-            {
-                return Json(new List<string>());
-            }
-
-            return Json(cardConstructs.OrderBy(c => c.MtgCardId));
-        }
-
-        [HttpDelete]
-        [Route("deleteCardCopy")]
-        public JsonResult DeleteCardConstruct(string constructId)
-        {
-            CardConstruct cardConstruct = _cardConstructAccessor.GetCardConstruct(constructId);
-            if (cardConstruct == null)
-            {
-                return Json(new
-                {
-                    Error = "CardConstruct not found."
-                });
-            }
-
-            _cardConstructAccessor.Delete(cardConstruct);
-
-            return Json(new
-            {
-                Success = true
-            });
         }
     }
 }

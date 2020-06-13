@@ -4,9 +4,7 @@
 // Write your JavaScript code.
 
 // Searching
-$('#searchCardByName').click(searchMetacard);
-
-function searchMetacard(resultsContainerId) {
+$('#searchCardByName').click(function () {
     var cardNameStartingWith = $('#cardName').val();
 
     $.ajax({
@@ -17,8 +15,7 @@ function searchMetacard(resultsContainerId) {
             if (data != null && data.length > 0) {
                 var html = "";
                 $.each(data, function (key, value) {
-                    var cardName = encodeURIComponent(value.name);
-                    html += "<div><a href=\"/selectSet?metacardId=" + value.id + "&cardName=" + cardName + "\">" + value.name + "</a></div>";
+                    html += "<div><a href='/selectSet?cardName=" + value.name + "&metacardId=" + value.id + "'>" + value.name + "</a></div>";
                 });
                 $("#cardSearchResults").html("<div>" + html + "</div>");
             }
@@ -30,14 +27,4 @@ function searchMetacard(resultsContainerId) {
             console.log(status);
         }
     });
-}
-
-$('#addCardToCollection').click(createCardCopies);
-
-// Creating Card Constructs
-function createCardCopies() {
-    var mtgCardId = $('#mtgCardId').val();
-    var numberOfCopies = $('#numberOfCopies').val();
-
-    window.location.replace("/addCopies?mtgCardId=" + mtgCardId + "&numberOfCopies=" + numberOfCopies);
-}
+});

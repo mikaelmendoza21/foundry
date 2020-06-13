@@ -13,10 +13,7 @@
     {
         <div class="row">
             <div class="container">
-                <a href="reviewToAdd?metacardId=@metacardId&setId=@set.Id&cardName=@System.Web.HttpUtility.HtmlEncode(cardName)">
-                    @set.Name
-                    <i class="ss ss-@set.Code.ToLower()"></i>
-                </a>
+                <a href="reviewToAdd?cardName=@cardName&metacardId=@metacardId&setId=@set.Id">@set.Name</a>
             </div>
         </div>
     }
