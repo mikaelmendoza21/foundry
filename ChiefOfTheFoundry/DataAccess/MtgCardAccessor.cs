@@ -57,7 +57,7 @@ namespace ChiefOfTheFoundry.DataAccess
                 .Find(filter)
                 .ToEnumerable();
         }
-
+        
         public MtgCard Create(MtgCard card)
         {
             MtgCard existingCard = GetMtgCardByName(card.Name, card.SetID);

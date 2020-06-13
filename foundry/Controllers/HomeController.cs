@@ -10,30 +10,38 @@ using Foundry.Models;
 using ChiefOfTheFoundry.Models;
 using ChiefOfTheFoundry.Services;
 using ChiefOfTheFoundry.DataAccess;
+using ChiefOfTheFoundry.Models.Inventory;
 
 namespace Foundry.Controllers
 {
-    [ApiController]
     [Route("/")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _configuration;
         private readonly IMetaCardAccessor _metaCardAccessor;
+        private readonly IMtgCardAccessor _mtgCardAccessor;
         private readonly ICardManagerService _cardManagerService;
         private readonly ISetManagerService _setManagerService;
 
         public HomeController(IConfiguration configuration,
             IMetaCardAccessor metaCardAccessor,
+            IMtgCardAccessor mtgCardAccessor,
             ICardManagerService cardManagerService,
             ISetManagerService setManagerService,
             ILogger<HomeController> logger)
         {
             _configuration = configuration;
             _metaCardAccessor = metaCardAccessor;
+            _mtgCardAccessor = mtgCardAccessor;
             _cardManagerService = cardManagerService;
             _setManagerService = setManagerService;
             _logger = logger;
+        }
+
+        public IActionResult Index()
+        {
+            return RedirectToAction("SearchCard");
         }
 
         [HttpGet]
@@ -79,7 +87,7 @@ namespace Foundry.Controllers
 
         [HttpGet]
         [Route("reviewToAdd")]
-        public IActionResult ReviewBeforeAdding(string cardName, string metacardId, string setId)
+        public IActionResult ReviewBeforeAdding(string metacardId, string setId, string cardName)
         {
             if (string.IsNullOrEmpty(cardName) || string.IsNullOrEmpty(metacardId))
             {
@@ -98,6 +106,31 @@ namespace Foundry.Controllers
             }
 
             ViewBag.Card = card;
+
+            BaseViewModel model = new BaseViewModel(_configuration);
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("addCopies")]
+        public IActionResult AddCardCopies(string mtgCardId, int numberOfCopies = 1)
+        {
+            if (string.IsNullOrEmpty(mtgCardId) || numberOfCopies < 1)
+            {
+                return BadRequest($"Error: invalid request. MtgCardId='{mtgCardId}'. Number of Copies {numberOfCopies}");
+            }
+
+            MtgCard mtgCard = _mtgCardAccessor.GetMtgCardById(mtgCardId);
+            if (mtgCard == null)
+            {
+                return BadRequest($"Error: invalid request. MtgCardId='{mtgCardId}'. Number of Copies {numberOfCopies}");
+            }
+            
+            CardConstruct cardConstruct = new CardConstruct(mtgCard);
+            _cardManagerService.CreateCopiesFromConstruct(cardConstruct, numberOfCopies);
+            
+            ViewBag.Card = mtgCard;
+            ViewBag.NumberOfCopies = numberOfCopies;
 
             BaseViewModel model = new BaseViewModel(_configuration);
             return View(model);

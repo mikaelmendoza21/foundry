@@ -70,13 +70,17 @@ namespace foundry
                 ConnectionString = Configuration.GetSection("DbSettings")["ConnectionString"],
                 DatabaseName = Configuration.GetSection("DbSettings")["DatabaseName"]
             };
-            services.AddSingleton<IDeckAccessor>(s => new DeckAccessor(cardDbSettings));
+            DeckAccessor deckAccessor = new DeckAccessor(cardDbSettings);
+            services.AddSingleton<IDeckAccessor>(s => deckAccessor);
 
             SetManagerService setManagerService = new SetManagerService(metaCardAccessor, mtgSetAccessor);
             services.AddSingleton<ISetManagerService>(s => setManagerService);
 
             CardManagerService cardManagerService = new CardManagerService(metaCardAccessor, mtgSetAccessor, mtgCardAccessor, cardConstructAccessor);
             services.AddSingleton<ICardManagerService>(c => cardManagerService);
+
+            CollectionManagerService collectionManagerService = new CollectionManagerService(metaCardAccessor, mtgSetAccessor, mtgCardAccessor, cardConstructAccessor, deckAccessor);
+            services.AddSingleton<ICollectionManagerService>(c => collectionManagerService);
 
             services.AddControllersWithViews();
         }
