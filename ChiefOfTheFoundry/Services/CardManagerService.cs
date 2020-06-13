@@ -15,8 +15,10 @@ namespace ChiefOfTheFoundry.Services
     {
         IEnumerable<MetaCard> GetMetaCardsByNameBeginning(string beginningWithChars);
         Task<List<MetaCard>> GetMetaCardsByNameBeginningAsync(string beginningWithChars);
-
+        IEnumerable<MtgCard> GetMtgCardsByMetacardId(string metacardId);
+        IEnumerable<CardConstruct> GetCardConstructsFromMetacardId(string metacardId);
         MtgCard GetMtgCardByMetacardAndSet(string metacardId, string setId);
+        List<CardConstruct> CreateCopiesFromConstruct(CardConstruct cardConstruct, int numberOfCopies);
     }
 
     public class CardManagerService : ICardManagerService
@@ -55,6 +57,13 @@ namespace ChiefOfTheFoundry.Services
                 .GetMetaCardsAsync(filterByName);
         }
 
+        public IEnumerable<MtgCard> GetMtgCardsByMetacardId(string metacardId)
+        {
+            FilterDefinition<MtgCard> filter = Builders<MtgCard>.Filter.Eq(c => c.MetaCardID, metacardId);
+
+            return _mtgCardAccessor.GetMtgCards(filter);
+        }
+
         public MtgCard GetMtgCardByMetacardAndSet(string metacardId, string setId)
         {
             FilterDefinition<MtgCard>[] allFilters = new []
@@ -65,6 +74,18 @@ namespace ChiefOfTheFoundry.Services
             FilterDefinition<MtgCard> filter = Builders<MtgCard>.Filter.And(allFilters);
 
             return _mtgCardAccessor.GetMtgCard(filter);
+        }
+
+        public IEnumerable<CardConstruct> GetCardConstructsFromMetacardId(string metacardId)
+        {
+            FilterDefinition<CardConstruct> filter = Builders<CardConstruct>.Filter.Eq(c => c.MetaCardId, metacardId);
+
+            return _cardConstructAccesor.GetCardConstructs(filter);
+        }
+
+        public List<CardConstruct> CreateCopiesFromConstruct(CardConstruct cardConstruct, int numberOfCopies)
+        {
+            return _cardConstructAccesor.CreateMultipleCopies(cardConstruct, numberOfCopies);
         }
     }
 }

@@ -11,8 +11,9 @@
             <img src="@card.ImageUrl" />
             <p>@card.Text</p>
             <label for="numberOfCopies">Card Copies</label>
+            <input id="mtgCardId" name="mtgCardId" type="hidden" value="@card.Id" />
             <input type="number" class="form-control" id="numberOfCopies" placeholder="Number of copies..">
         </div>
-        <button id="addCardToCollection" class="btn btn-primary">Submit</button>
+        <button id="addCardToCollection" type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>

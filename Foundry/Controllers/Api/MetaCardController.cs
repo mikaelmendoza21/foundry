@@ -66,7 +66,7 @@ namespace FoundryApi.Api.Controllers
         public JsonResult GetMetacardsByNameStart(string substring)
         {
             IEnumerable<MetaCard> matches = _cardManagerService.GetMetaCardsByNameBeginning(substring);
-            if(matches.Count() > 0)
+            if (matches.Count() > 0)
             {
                 return Json(matches.ToList());
             }
